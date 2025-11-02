@@ -50,4 +50,28 @@ public class FileHandler {
         return participants;
     }
 
+    // Delete a participant by index
+    public static boolean deleteParticipant(int index) {
+        List<Participant> participants = readParticipants();
+
+        if (index < 0 || index >= participants.size()) {
+            return false;
+        }
+
+        // Remove the participant at the specified index
+        participants.remove(index);
+
+        // Rewrite the entire file with the updated list
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (Participant p : participants) {
+                writer.write(p.toString());
+                writer.newLine();
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
